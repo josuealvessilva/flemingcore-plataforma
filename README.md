@@ -1,6 +1,6 @@
 # FlemingCore
 
-Plataforma de gestão de estoque farmacêutico — **Challenge Eurofarma 2026**.
+Plataforma de gestão de estoque farmacêutico.
 
 O problema que o projeto ataca é simples de enunciar e caro de resolver: uma
 farmácia administra milhares de lotes com validades diferentes, e a informação
