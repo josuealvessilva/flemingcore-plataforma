@@ -80,8 +80,6 @@ firebase deploy --only functions
 
 ## Segurança
 
-Nenhum segredo vive neste repositório, e isso é regra de projeto, não descuido:
-
 - Senha de banco, chave de API e credenciais ficam no **Google Secret Manager**,
   lidas em tempo de execução por `get_secret()`.
 - `backend/config/.env.example` é modelo, com placeholders.
