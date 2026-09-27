@@ -1,0 +1,10 @@
+# O Vercel só precisa do código-fonte: ele mesmo roda npm install e a build.
+# Sem isto, o release/ do Electron (367 MB) subiria junto a cada deploy.
+node_modules
+release
+dist
+dist-electron
+dist-web
+.vercel
+*.log
+tsconfig.tsbuildinfo
