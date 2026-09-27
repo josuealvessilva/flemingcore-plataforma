@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Conexão Power BI → FlemingCore</title>
+<style>
+  :root {
+    --fundo: #fbfaf8;
+    --papel: #ffffff;
+    --texto: #1c1a17;
+    --suave: #5f5a52;
+    --borda: #e2ddd5;
+    --acento: #1f6b4f;
+    --acento-fraco: #e8f2ed;
+    --aviso: #8a4b16;
+    --aviso-fraco: #fdf1e5;
+    --perigo: #97331f;
+    --codigo-fundo: #f2efea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #16181a;
+      --papel: #1d2023;
+      --texto: #e9e6e1;
+      --suave: #a7a199;
+      --borda: #32363a;
+      --acento: #6fc4a0;
+      --acento-fraco: #1a2b25;
+      --aviso: #e0a86a;
+      --aviso-fraco: #2b2418;
+      --perigo: #e58b74;
+      --codigo-fundo: #24272b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 72px;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 16px/1.65 "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  header { border-bottom: 2px solid var(--acento); padding-bottom: 16px; margin-bottom: 8px; }
+  h1 { font-size: 26px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .sub { color: var(--suave); font-size: 14px; margin: 0; }
+  h2 {
+    font-size: 18px; margin: 40px 0 12px; padding-top: 20px;
+    border-top: 1px solid var(--borda);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 15px; margin: 24px 0 8px; }
+  p { margin: 0 0 12px; }
+  code {
+    background: var(--codigo-fundo); padding: 2px 6px; border-radius: 4px;
+    font: 13.5px/1.4 "Cascadia Mono", Consolas, monospace;
+  }
+  pre {
+    background: var(--codigo-fundo); border: 1px solid var(--borda);
+    border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 10px 0 16px;
+  }
+  pre code { background: none; padding: 0; font-size: 13px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 20px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--borda); }
+  th { font-weight: 600; color: var(--suave); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td:first-child { font-weight: 500; }
+  ol.passos { list-style: none; counter-reset: p; padding: 0; margin: 0; }
+  ol.passos > li {
+    counter-increment: p; position: relative;
+    padding: 0 0 4px 44px; margin-bottom: 26px;
+  }
+  ol.passos > li::before {
+    content: counter(p);
+    position: absolute; left: 0; top: 0;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--acento); color: var(--fundo);
+    display: grid; place-items: center;
+    font-size: 14px; font-weight: 700;
+  }
+  ol.passos > li > strong { display: block; margin-bottom: 6px; font-size: 15.5px; }
+  .caixa {
+    border-left: 4px solid var(--aviso); background: var(--aviso-fraco);
+    padding: 14px 16px; border-radius: 0 8px 8px 0; margin: 20px 0;
+  }
+  .caixa.ok { border-left-color: var(--acento); background: var(--acento-fraco); }
+  .caixa p:last-child { margin-bottom: 0; }
+  .caixa .rotulo {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--aviso); display: block; margin-bottom: 6px;
+  }
+  .caixa.ok .rotulo { color: var(--acento); }
+  .url { word-break: break-all; font-size: 12.5px; }
+  footer {
+    margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--borda);
+    color: var(--suave); font-size: 13px;
+  }
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    pre, table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Conexão Power BI → FlemingCore</h1>
+  <p class="sub">Arquivo local. Não está publicado nem servido em lugar nenhum.</p>
+</header>
+
+<div class="caixa ok">
+  <span class="rotulo">Sobre a senha</span>
+  <p>Este documento <strong>não contém a senha</strong> do <code>powerbi_readonly</code>, nem
+  o tamanho dela, nem quais tipos de caractere ela usa, nem qualquer pista que ajude a
+  reconstruí-la. Ela existe apenas no Secret Manager
+  (<code>powerbi-readonly-password</code>) e na sua cabeça.</p>
+</div>
+
+<h2>O que já está pronto no banco</h2>
+
+<p>Usuário PostgreSQL somente-leitura, sem acesso a dado pessoal cru. Verificado
+conectando <em>como</em> ele: leitura funciona onde deve, escrita falha em tudo.</p>
+
+<table>
+  <tr><th>Objeto</th><th>Situação</th></tr>
+  <tr><td><code>powerbi_readonly</code></td><td>sem superusuário, sem criar banco, sem criar papel, sem herdar nada</td></tr>
+  <tr><td>8 tabelas</td><td><code>SELECT</code> liberado</td></tr>
+  <tr><td>4 views</td><td><code>SELECT</code> liberado</td></tr>
+  <tr><td><code>venda</code>, <code>usuario</code>, <code>alerta</code>, <code>historico_atividades</code></td><td>acesso direto <strong>negado</strong> — só pelas views</td></tr>
+</table>
+
+<p>As views existem para tirar o que não deve sair: CPF e telefone de cliente em
+<code>venda</code>; nome, e-mail, identificador de autenticação e token de push em
+<code>usuario</code>; e os campos de texto livre digitados por pessoas em
+<code>alerta</code> e <code>historico_atividades</code>.</p>
+
+<h2>Passo a passo</h2>
+
+<ol class="passos">
+
+<li>
+  <strong>Autorizar sua máquina uma única vez</strong>
+  <p>O proxy usa Application Default Credentials, que são separadas do login normal
+  do <code>gcloud</code>.</p>
+  <pre><code>gcloud auth application-default login</code></pre>
+</li>
+
+<li>
+  <strong>Baixar o Cloud SQL Auth Proxy</strong>
+  <p>Baixe o executável e renomeie para <code>cloud-sql-proxy.exe</code>:</p>
+  <pre><code class="url">https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.25.4/cloud-sql-proxy.x64.exe</code></pre>
+  <p>Não é preciso autorizar IP nenhum, e não é preciso instalar certificado no
+  Windows — o proxy resolve as duas coisas.</p>
+</li>
+
+<li>
+  <strong>Ligar o banco</strong>
+  <p>Ele fica desligado por padrão, para não gerar custo.</p>
+  <pre><code>gcloud sql instances patch flemingcore-db-v2 --project=flemingcore-53272 --activation-policy=ALWAYS</code></pre>
+  <p>Leva alguns minutos até aceitar conexão.</p>
+</li>
+
+<li>
+  <strong>Deixar o proxy rodando</strong>
+  <p>Numa janela de terminal própria, que fica aberta enquanto você usa o Power BI:</p>
+  <pre><code>cloud-sql-proxy.exe --port 5432 flemingcore-53272:southamerica-east1:flemingcore-db-v2</code></pre>
+</li>
+
+<li>
+  <strong>Conectar no Power BI Desktop</strong>
+  <p><em>Obter Dados → PostgreSQL</em></p>
+  <table>
+    <tr><td>Servidor</td><td><code>localhost:5432</code></td></tr>
+    <tr><td>Banco de dados</td><td><code>postgres</code></td></tr>
+    <tr><td>Autenticação</td><td>Base de Dados (usuário e senha)</td></tr>
+    <tr><td>Usuário</td><td><code>powerbi_readonly</code></td></tr>
+    <tr><td>Senha</td><td>a que você definiu</td></tr>
+  </table>
+  <p>Vai aparecer um aviso de <em>conexão não criptografada</em>. <strong>Clique OK.</strong>
+  O trecho sem criptografia é só Power BI → <code>127.0.0.1</code>, que não sai da sua
+  máquina; o proxy faz o TLS até o banco.</p>
+  <p>O Navigator vai listar as 8 tabelas e as 4 views. As tabelas base sensíveis não
+  aparecem como acessíveis.</p>
+</li>
+
+<li>
+  <strong>Desligar o banco ao terminar</strong>
+  <p>Feche o proxy e rode:</p>
+  <pre><code>gcloud sql instances patch flemingcore-db-v2 --project=flemingcore-53272 --activation-policy=NEVER</code></pre>
+</li>
+
+</ol>
+
+<div class="caixa">
+  <span class="rotulo">Evite a janela 06:00–06:10 (horário de Brasília)</span>
+  <p>É quando o orquestrador da projeção diária roda. Ele liga o banco, gera os alertas
+  e <strong>desliga o banco no final, por garantia</strong> — inclusive se você estiver
+  usando. Se o Power BI perder a conexão nesse horário, é isso, não é defeito.</p>
+</div>
+
+<h2>O que dá para montar hoje</h2>
+
+<p>Contagem real das tabelas, para você não investir tempo num relatório que abre vazio:</p>
+
+<table>
+  <tr><th>Relatório</th><th>Situação</th></tr>
+  <tr><td>Corte por medicamento / fabricante</td><td>viável — 132 vendas, 3 lotes, 5 medicamentos</td></tr>
+  <tr><td>Funil de resolução de alertas</td><td>vazio — <code>alerta</code> e <code>historico_atividades</code> em zero</td></tr>
+  <tr><td>Entrada vs. saída de estoque</td><td>vazio — <code>entrada_estoque</code> em zero</td></tr>
+  <tr><td>Tendência de desperdício evitado</td><td>impossível — são contadores cumulativos, não série temporal</td></tr>
+</table>
+
+<p>Os três últimos não se resolvem com mais tempo de Power BI. Os dois do meio precisam
+de dado gerado; o último precisa de mudança de modelagem, porque não existe tabela de
+histórico guardando os valores ao longo do tempo.</p>
+
+<footer>
+  FlemingCore · documento local em <code>C:\dev\flemingcore\docs\powerbi-conexao.html</code><br>
+  Versão do proxy conferida em 07/09/2026. Contagens medidas na mesma data.
+</footer>
+
+</main>
+</body>
+</html>

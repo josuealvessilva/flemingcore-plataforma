@@ -1,0 +1,19 @@
+firebase-admin==6.2.0
+firebase-functions>=0.4.0
+google-cloud-secret-manager==2.16.4
+google-auth>=2.28.0
+google-api-python-client==2.199.0
+prometheus-client==0.18.0
+google-cloud-pubsub==2.18.4
+cloud-sql-python-connector[pg8000]>=1.0.0
+# Fixada em 21/09/2026 na versao testada no runtime real com a Flora via
+# OpenRouter. Com ">=1.0.0" o build pegava a mais nova do dia (a 3.16.2 ja
+# trocou o transporte para httpx2), e o main.py importa openai no topo:
+# uma quebra ali derruba TODAS as Functions, nao so a eva_chat.
+openai==3.16.2
+# Ideia 14: previsao de sobra DENTRO da Function, com import local em
+# _carregar_modelo_projecao (nunca no topo do main.py). Versoes fixas e iguais
+# as do treino (ml/requirements-treino.txt): modelo e biblioteca andam juntos.
+lightgbm==4.7.0
+numpy==2.4.6
+scipy==1.17.1

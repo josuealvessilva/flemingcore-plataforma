@@ -1,0 +1,356 @@
+{
+  "aviso": "PROVA DE CONCEITO DE ARQUITETURA, NAO MODELO VALIDADO. Treinado e avaliado so com dado SINTETICO gerado pelo proprio time: as metricas medem o quanto o modelo reproduz a simulacao, nao a precisao sobre estoque real. A formula atual aparece so como referencia nas mesmas linhas — nao usar a comparacao como argumento de que o modelo e mais preciso.",
+  "treinado_em_utc": "2026-09-21T19:41:56+00:00",
+  "ambiente": {
+    "python": "3.11.9",
+    "lightgbm": "4.7.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "sistema": "Windows-10-10.0.26200-SP0"
+  },
+  "dataset": {
+    "arquivo": "dados/treino_sintetico.csv",
+    "sha256": "b88b851066ea24dc275740d047858192a276abe44fe274a9274bdb87b68bbc3a",
+    "linhas": 7940,
+    "produtos": 120,
+    "produtos_teste": 18,
+    "linhas_teste": 980,
+    "linhas_treino": 5993,
+    "linhas_validacao": 967,
+    "separacao": "por produto simulado; teste separado antes da escolha de configuracao"
+  },
+  "checagem_regra_recall_e_features": {
+    "colunas": [
+      "id_produto_simulado",
+      "id_lote_simulado",
+      "dia_snapshot",
+      "perfil_velocidade",
+      "sazonal",
+      "vencimento_frequente",
+      "dias_ate_vencer",
+      "quantidade_inicial",
+      "media_venda_diaria_90d",
+      "sobra_projetada"
+    ],
+    "features_usadas": [
+      "dias_ate_vencer",
+      "quantidade_inicial",
+      "media_venda_diaria_90d"
+    ],
+    "colunas_suspeitas": [],
+    "features_iguais_as_de_producao": "main.py ainda sem FEATURES_PROJECAO"
+  },
+  "escolha_de_configuracao": {
+    "criterio": "menor RMSE medio na validacao cruzada (5 dobras, sem o teste)",
+    "escolhida": "tweedie_1.3",
+    "candidatas": {
+      "L2": {
+        "mae": {
+          "media": 10.68,
+          "min": 7.023,
+          "max": 21.939
+        },
+        "rmse": {
+          "media": 42.71,
+          "min": 30.616,
+          "max": 80.088
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          45,
+          119,
+          144,
+          17,
+          193
+        ]
+      },
+      "L2_regularizado": {
+        "mae": {
+          "media": 12.332,
+          "min": 6.404,
+          "max": 26.124
+        },
+        "rmse": {
+          "media": 47.86,
+          "min": 25.292,
+          "max": 95.046
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          44,
+          58,
+          336,
+          18,
+          118
+        ]
+      },
+      "poisson": {
+        "mae": {
+          "media": 6.142,
+          "min": 2.871,
+          "max": 8.555
+        },
+        "rmse": {
+          "media": 27.452,
+          "min": 12.839,
+          "max": 40.533
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          495,
+          986,
+          114,
+          509,
+          169
+        ]
+      },
+      "tweedie_1.3": {
+        "mae": {
+          "media": 5.651,
+          "min": 2.477,
+          "max": 8.967
+        },
+        "rmse": {
+          "media": 27.242,
+          "min": 11.279,
+          "max": 44.485
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          257,
+          625,
+          111,
+          316,
+          113
+        ]
+      },
+      "tweedie_1.5": {
+        "mae": {
+          "media": 5.732,
+          "min": 2.43,
+          "max": 9.332
+        },
+        "rmse": {
+          "media": 27.428,
+          "min": 11.542,
+          "max": 47.472
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          274,
+          635,
+          103,
+          255,
+          141
+        ]
+      },
+      "tweedie_1.3_sem_monotonia": {
+        "mae": {
+          "media": 7.772,
+          "min": 3.187,
+          "max": 17.137
+        },
+        "rmse": {
+          "media": 37.351,
+          "min": 14.868,
+          "max": 80.186
+        },
+        "formula_atual_referencia": {
+          "mae": {
+            "media": 23.372,
+            "min": 15.266,
+            "max": 33.059
+          },
+          "rmse": {
+            "media": 78.037,
+            "min": 42.776,
+            "max": 107.518
+          }
+        },
+        "melhores_iteracoes": [
+          138,
+          86,
+          113,
+          33,
+          211
+        ]
+      }
+    }
+  },
+  "parametros_finais": {
+    "metric": [
+      "rmse",
+      "l1"
+    ],
+    "learning_rate": 0.05,
+    "num_leaves": 15,
+    "min_data_in_leaf": 30,
+    "lambda_l2": 1.0,
+    "monotone_constraints": [
+      -1,
+      1,
+      -1
+    ],
+    "seed": 20260921,
+    "deterministic": true,
+    "force_col_wise": true,
+    "num_threads": 1,
+    "verbose": -1,
+    "objective": "tweedie",
+    "tweedie_variance_power": 1.3
+  },
+  "rodadas": {
+    "melhor_iteracao": 120,
+    "maximo": 3000,
+    "parada_antecipada": 100
+  },
+  "avaliacao": {
+    "treino": {
+      "modelo_servido": {
+        "mae": 4.493,
+        "rmse": 20.518,
+        "vies_medio": -0.318,
+        "linhas": 5993
+      },
+      "formula_atual_referencia": {
+        "mae": 24.187,
+        "rmse": 83.659,
+        "vies_medio": 24.005,
+        "linhas": 5993
+      }
+    },
+    "validacao": {
+      "modelo_servido": {
+        "mae": 3.917,
+        "rmse": 18.857,
+        "vies_medio": -2.321,
+        "linhas": 967
+      },
+      "formula_atual_referencia": {
+        "mae": 16.24,
+        "rmse": 49.063,
+        "vies_medio": 16.161,
+        "linhas": 967
+      }
+    },
+    "teste": {
+      "modelo_servido": {
+        "mae": 19.096,
+        "rmse": 65.474,
+        "vies_medio": -10.112,
+        "linhas": 980
+      },
+      "formula_atual_referencia": {
+        "mae": 37.267,
+        "rmse": 103.941,
+        "vies_medio": 36.722,
+        "linhas": 980
+      }
+    }
+  },
+  "teste_por_perfil": {
+    "velocidade=lento": {
+      "linhas": 176,
+      "mae_modelo": 3.284,
+      "mae_formula_atual": 4.693
+    },
+    "velocidade=medio": {
+      "linhas": 568,
+      "mae_modelo": 7.104,
+      "mae_formula_atual": 26.639
+    },
+    "velocidade=rapido": {
+      "linhas": 236,
+      "mae_modelo": 59.75,
+      "mae_formula_atual": 87.14
+    },
+    "sazonal=0": {
+      "linhas": 465,
+      "mae_modelo": 17.422,
+      "mae_formula_atual": 39.271
+    },
+    "sazonal=1": {
+      "linhas": 515,
+      "mae_modelo": 20.608,
+      "mae_formula_atual": 35.458
+    },
+    "vencimento_frequente=0": {
+      "linhas": 681,
+      "mae_modelo": 0.0,
+      "mae_formula_atual": 16.954
+    },
+    "vencimento_frequente=1": {
+      "linhas": 299,
+      "mae_modelo": 62.589,
+      "mae_formula_atual": 83.532
+    }
+  },
+  "importancia_gain_fracao": {
+    "dias_ate_vencer": 0.6992,
+    "quantidade_inicial": 0.2961,
+    "media_venda_diaria_90d": 0.0047
+  },
+  "modelo": {
+    "arquivo": "modelo/modelo_projecao_sobra.txt",
+    "bytes": 187344,
+    "sha256": "b0a0fb8619402c21552a037a5351b6624a5d3d20188a40efd878119bb64a03a9",
+    "versao_registrada_na_function": "b0a0fb861940",
+    "formato": "texto nativo do LightGBM (model_to_string), nao pickle",
+    "diferenca_max_memoria_vs_arquivo": 0.0
+  }
+}

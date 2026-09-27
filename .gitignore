@@ -1,0 +1,42 @@
+# --- Ambiente e segredos -------------------------------------------------
+# Nenhuma credencial vive neste repositório. Senha de banco, chave de API e
+# credencial de conta de serviço ficam no Google Secret Manager e são lidas
+# em tempo de execução. O .env.example é modelo, sem valor real.
+.env
+.env.*
+!.env.example
+*secret*
+*credential*
+*credencial*
+*.pem
+*.key
+.vercel/
+
+# --- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+ENV/
+.venv/
+
+# --- Node -----------------------------------------------------------------
+node_modules/
+
+# --- Saída de build -------------------------------------------------------
+dist/
+dist-web/
+dist-electron/
+release/
+tsconfig.tsbuildinfo
+
+# --- Backups de trabalho --------------------------------------------------
+*.bak
+*.bak[0-9]*
+
+# --- IDE e sistema operacional -------------------------------------------
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db

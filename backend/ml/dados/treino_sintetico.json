@@ -1,0 +1,36 @@
+{
+  "dado": "SINTETICO — gerado por simulacao, sem nenhuma linha de banco ou de recall",
+  "semente": 20260921,
+  "produtos_simulados": 120,
+  "linhas": 7940,
+  "lotes": 1989,
+  "lotes_censurados_descartados": 139,
+  "colunas": [
+    "id_produto_simulado",
+    "id_lote_simulado",
+    "dia_snapshot",
+    "perfil_velocidade",
+    "sazonal",
+    "vencimento_frequente",
+    "dias_ate_vencer",
+    "quantidade_inicial",
+    "media_venda_diaria_90d",
+    "sobra_projetada"
+  ],
+  "features": [
+    "dias_ate_vencer",
+    "quantidade_inicial",
+    "media_venda_diaria_90d"
+  ],
+  "alvo": "sobra_projetada",
+  "alvo_zero_pct": 87.9,
+  "alvo_media": 23.21,
+  "alvo_max": 1469,
+  "linhas_media_zero_pct": 11.9,
+  "perfis_linhas": {
+    "lento": 3277,
+    "medio": 3087,
+    "rapido": 1576
+  },
+  "sha256_csv": "b88b851066ea24dc275740d047858192a276abe44fe274a9274bdb87b68bbc3a"
+}

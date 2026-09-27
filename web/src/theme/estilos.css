@@ -1,0 +1,505 @@
+/**
+ * Sistema visual do FlemingCore — tokens, base e componentes.
+ *
+ * DE ONDE VEM CADA COR (nada aqui foi inventado):
+ *  - Neutros, fundo, borda e o azul da marca saem MEDIDOS da landing page
+ *    publicada do projeto (fleming-core.lovable.app): fundo #F4F9FE, cartão
+ *    #FFFFFF, texto #0F1E2D, texto suave #586571, borda #CFD9E3 e primária
+ *    #3684C8 no claro; #020A14 / #071521 / #E2E9F0 / #8494A4 / #1B2A39 no
+ *    escuro. Assim o app e o site parecem o mesmo produto.
+ *  - O azul entra como #2E77B8 (um passo mais escuro que o #3684C8 do site)
+ *    para o texto branco em cima dele passar em 4,5:1 — o valor do site dá
+ *    3,97:1, abaixo do mínimo de contraste para texto normal.
+ *  - O laranja da Eurofarma e o farol vermelho/laranja/verde continuam os do
+ *    app (theme/colors.ts, portado do app_colors.dart): são semânticos e não
+ *    existem na landing.
+ *  - Tipografia: Sora (títulos) e Manrope (texto), as mesmas duas da landing.
+ *
+ * A sidebar e o painel de marca do login ficam escuros nos DOIS modos — é o
+ * padrão que o app já usava e o que dá contraste para o símbolo ciano.
+ */
+
+/* ========================================================================
+   TOKENS — modo claro (padrão)
+   ======================================================================== */
+:root {
+  /* Superfícies. Nunca branco puro nem preto puro. */
+  --fundo: #F4F9FE;
+  --superficie: #FFFFFF;
+  --superficie-2: #E7F2FC;
+  --superficie-3: #DCEAF7;
+
+  /* Texto */
+  --texto: #0F1E2D;
+  --texto-suave: #586571;
+  --texto-fraco: #7C8894;
+  --texto-sobre-acento: #F9FCFF;
+
+  /* Marca */
+  --marinho: #0F2438;
+  --marinho-2: #071521;
+  --primaria: #2E77B8;
+  --primaria-forte: #23608F;
+  --primaria-suave: #E7F2FC;
+  --eurofarma: #E8770B;
+  --eurofarma-suave: #FDF0E2;
+
+  /* Farol (semântico, igual nas duas áreas) */
+  --risco: #C62828;
+  --atencao: #EF6C00;
+  --ok: #2E7D32;
+  --aviso-fundo: #FFF3CD;
+
+  /* Estrutura */
+  --linha: #CFD9E3;
+  --linha-forte: #B6C5D4;
+  --neutro: #586571;
+  --desabilitado: #A9B4C2;
+  --trilho: #DCE7F2;
+
+  /* Acentos de gráfico e de cartão comemorativo (Wrapped, Impacto Social).
+     São decorativos, não semânticos: nenhum deles significa risco. */
+  --grafico-1: #6A3FC0;
+  --grafico-2: #1E88E5;
+  --grafico-3: #00897B;
+  --grafico-4: #E07B00;
+  --grafico-5: #C2185B;
+  --grafico-6: #4E6070;
+
+  /* Sombra e forma */
+  --sombra-1: 0 1px 2px rgba(15, 27, 42, .06), 0 1px 3px rgba(15, 27, 42, .08);
+  --sombra-2: 0 4px 12px rgba(15, 27, 42, .08), 0 2px 4px rgba(15, 27, 42, .04);
+  --sombra-3: 0 18px 40px rgba(15, 27, 42, .16);
+  --raio: 10px;
+  --raio-g: 16px;
+  --raio-p: 6px;
+
+  /* Tipografia — as mesmas da landing. */
+  --fonte: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fonte-display: 'Sora', 'Manrope', system-ui, sans-serif;
+  --fonte-mono: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* ========================================================================
+   TOKENS — modo escuro
+   ======================================================================== */
+:root[data-tema='escuro'] {
+  --fundo: #020A14;
+  --superficie: #071521;
+  --superficie-2: #0C1E2C;
+  --superficie-3: #122838;
+
+  --texto: #E2E9F0;
+  --texto-suave: #8494A4;
+  --texto-fraco: #6C7C8C;
+  --texto-sobre-acento: #04121E;
+
+  --marinho: #06131D;
+  --marinho-2: #020A14;
+  --primaria: #53A2E0;
+  --primaria-forte: #7FBCEC;
+  --primaria-suave: #0B2434;
+  --eurofarma: #FFA24D;
+  --eurofarma-suave: #35230F;
+
+  --risco: #FF6B7F;
+  --atencao: #FFC148;
+  --ok: #57D394;
+  --aviso-fundo: #2C2310;
+
+  --linha: #1B2A39;
+  --linha-forte: #2A3C4E;
+  --neutro: #8494A4;
+  --desabilitado: #35485C;
+  --trilho: #142434;
+
+  /* Mesmos matizes, clareados para manter contraste sobre o fundo escuro. */
+  --grafico-1: #B79CFF;
+  --grafico-2: #64C8FF;
+  --grafico-3: #4DD0C4;
+  --grafico-4: #FFB74D;
+  --grafico-5: #FF8AB0;
+  --grafico-6: #A3B2C2;
+
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, .4);
+  --sombra-2: 0 4px 14px rgba(0, 0, 0, .45);
+  --sombra-3: 0 18px 44px rgba(0, 0, 0, .55);
+
+  color-scheme: dark;
+}
+
+/* ========================================================================
+   BASE
+   ======================================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: var(--fonte);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--texto);
+  background: var(--fundo);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -.015em; font-weight: 600; }
+
+/* Código de lote e código de barras em monoespaçada: são identificadores,
+   e o leitor compara caractere a caractere. */
+.fc-mono { font-family: var(--fonte-mono); font-variant-numeric: tabular-nums; }
+
+/* Números de destaque (valor, score, contagem) na fonte de título, com
+   dígitos de largura fixa: alinham em coluna sem virar texto de terminal. */
+.fc-num { font-family: var(--fonte-display); font-variant-numeric: tabular-nums; letter-spacing: -.015em; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* As telas do app escrevem <input> com estilo em linha e sem cor de fundo.
+   Sem esta base, no modo escuro o navegador desenha o campo com o padrão
+   dele — cinza claro, sem borda visível, destoando de tudo. O estilo em
+   linha de cada tela continua tendo precedência sobre isto. */
+input:not([type='checkbox']):not([type='radio']):not([type='range']),
+select,
+textarea {
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio-p);
+  padding: 10px 12px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:not([type='checkbox']):not([type='radio']):not([type='range']):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primaria) 22%, transparent);
+}
+input::placeholder, textarea::placeholder { color: var(--texto-fraco); }
+/* O ícone do seletor de data é preto fixo; no escuro ele some no campo. */
+:root[data-tema='escuro'] ::-webkit-calendar-picker-indicator { filter: invert(1) opacity(.7); }
+
+/* Um anel de foco visível e consistente em tudo que recebe teclado. */
+:focus-visible {
+  outline: 2px solid var(--primaria);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+::selection { background: var(--primaria); color: var(--texto-sobre-acento); }
+
+/* Barra de rolagem discreta, acompanhando o tema. */
+* { scrollbar-width: thin; scrollbar-color: var(--linha-forte) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--linha-forte); border-radius: 8px;
+  border: 3px solid transparent; background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--neutro); background-clip: content-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ========================================================================
+   CAMPOS
+   ======================================================================== */
+.fc-campo {
+  width: 100%;
+  padding: 11px 13px;
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio-p);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.fc-campo::placeholder { color: var(--texto-fraco); }
+.fc-campo:hover { border-color: var(--neutro); }
+.fc-campo:focus {
+  outline: none;
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primaria) 22%, transparent);
+}
+.fc-campo:disabled { background: var(--superficie-3); color: var(--texto-fraco); cursor: not-allowed; }
+
+.fc-rotulo {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+}
+
+/* ========================================================================
+   BOTÕES
+   ======================================================================== */
+.fc-botao {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 18px;
+  font-size: 14px; font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+.fc-botao:active:not(:disabled) { transform: translateY(1px); }
+.fc-botao:disabled { cursor: not-allowed; opacity: .65; }
+
+.fc-botao--primario { background: var(--primaria); color: var(--texto-sobre-acento); }
+.fc-botao--primario:hover:not(:disabled) { background: var(--primaria-forte); box-shadow: var(--sombra-2); }
+.fc-botao--primario:disabled { background: var(--desabilitado); color: var(--superficie); }
+
+.fc-botao--contorno { background: transparent; color: var(--primaria); border-color: var(--linha-forte); }
+.fc-botao--contorno:hover:not(:disabled) { border-color: var(--primaria); background: var(--primaria-suave); }
+
+.fc-botao--fantasma { background: transparent; color: var(--texto-suave); }
+.fc-botao--fantasma:hover:not(:disabled) { background: var(--superficie-3); color: var(--texto); }
+
+.fc-botao--risco { background: transparent; color: var(--risco); border-color: color-mix(in srgb, var(--risco) 45%, transparent); }
+.fc-botao--risco:hover:not(:disabled) { background: color-mix(in srgb, var(--risco) 12%, transparent); }
+
+.fc-botao--bloco { width: 100%; }
+
+/* ========================================================================
+   CARTÕES E BLOCOS
+   ======================================================================== */
+.fc-cartao {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-1);
+}
+.fc-cartao--interativo { transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease; }
+.fc-cartao--interativo:hover { box-shadow: var(--sombra-2); transform: translateY(-2px); border-color: var(--linha-forte); }
+
+.fc-secao { padding: 20px; }
+
+/* Faixa fina de status no topo de um cartão (farol). */
+.fc-faixa { height: 4px; border-radius: var(--raio) var(--raio) 0 0; }
+
+/* ========================================================================
+   ETIQUETAS
+   ======================================================================== */
+.fc-etiqueta {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .02em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.fc-etiqueta--risco { background: color-mix(in srgb, var(--risco) 14%, transparent); color: var(--risco); border-color: color-mix(in srgb, var(--risco) 35%, transparent); }
+.fc-etiqueta--atencao { background: color-mix(in srgb, var(--atencao) 16%, transparent); color: var(--atencao); border-color: color-mix(in srgb, var(--atencao) 38%, transparent); }
+.fc-etiqueta--ok { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
+.fc-etiqueta--neutra { background: var(--superficie-3); color: var(--texto-suave); border-color: var(--linha); }
+
+/* ========================================================================
+   TABELA
+   ======================================================================== */
+.fc-tabela { width: 100%; border-collapse: collapse; font-size: 14px; }
+.fc-tabela th {
+  text-align: left; padding: 11px 14px;
+  font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--texto-fraco);
+  background: var(--superficie-2);
+  border-bottom: 1px solid var(--linha);
+  position: sticky; top: 0; z-index: 1;
+}
+.fc-tabela td { padding: 12px 14px; border-bottom: 1px solid var(--linha); vertical-align: middle; }
+.fc-tabela tbody tr { transition: background .12s ease; }
+.fc-tabela tbody tr:hover { background: var(--superficie-2); }
+.fc-tabela tbody tr:last-child td { border-bottom: none; }
+
+/* ========================================================================
+   SIDEBAR — escura nos dois modos (a logomarca pede fundo escuro)
+   ======================================================================== */
+.fc-sidebar {
+  width: 236px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, var(--marinho) 0%, var(--marinho-2) 100%);
+  border-right: 1px solid rgba(255, 255, 255, .07);
+}
+.fc-sidebar__marca { padding: 20px 18px 16px; }
+.fc-sidebar__marca img { width: 100%; max-width: 168px; height: auto; }
+.fc-sidebar__lista { list-style: none; flex: 1; overflow-y: auto; padding: 4px 10px; }
+.fc-sidebar__item {
+  width: 100%;
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 12px; margin-bottom: 2px;
+  border: none; border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, .62);
+  font-size: 14px; text-align: left; cursor: pointer;
+  transition: background .14s ease, color .14s ease;
+}
+.fc-sidebar__item:hover { background: rgba(255, 255, 255, .07); color: #fff; }
+.fc-sidebar__item[aria-current='page'] {
+  background: rgba(255, 255, 255, .11);
+  color: #fff; font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--acento-area, var(--primaria));
+}
+.fc-sidebar__rodape { padding: 14px; border-top: 1px solid rgba(255, 255, 255, .08); }
+
+.fc-sidebar__badge {
+  min-width: 20px; height: 20px; padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px;
+  background: var(--risco); color: #fff;
+  font-size: 11px; font-weight: 700; font-family: var(--fonte-mono);
+}
+
+/* ========================================================================
+   TROCA DE TEMA
+   ======================================================================== */
+.fc-tema {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px;
+  background: transparent;
+  border: 1px solid var(--linha-forte);
+  border-radius: 999px;
+  color: var(--texto-suave);
+  font-size: 13px; cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.fc-tema:hover { border-color: var(--primaria); color: var(--primaria); }
+.fc-tema--escura { border-color: rgba(255, 255, 255, .18); color: rgba(255, 255, 255, .72); }
+.fc-tema--escura:hover { border-color: rgba(255, 255, 255, .4); color: #fff; background: rgba(255, 255, 255, .08); }
+
+/* ========================================================================
+   LOGIN
+   ======================================================================== */
+.fc-login { display: grid; grid-template-columns: 1.1fr .9fr; min-height: 100vh; }
+
+.fc-login__marca {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 44px 48px;
+  background:
+    radial-gradient(900px 520px at 18% 14%, rgba(54, 132, 200, .26), transparent 64%),
+    linear-gradient(155deg, #071521 0%, #0F2438 54%, #050F1A 100%);
+  color: #E2E9F0;
+}
+/* Malha discreta — eco do hexágono da marca, sem competir com ele. */
+.fc-login__marca::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+  background-image:
+    linear-gradient(rgba(111, 192, 245, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 192, 245, .07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at 28% 38%, #000 0%, transparent 72%);
+}
+.fc-login__marca > * { position: relative; z-index: 1; }
+.fc-login__titulo {
+  font-family: var(--fonte-display);
+  font-size: clamp(1.8rem, 2.7vw, 2.45rem);
+  font-weight: 700; line-height: 1.16; letter-spacing: -.02em;
+  margin-top: 26px; max-width: 12em; color: #FFFFFF;
+}
+.fc-login__sub { color: #93A3B4; margin-top: 16px; max-width: 34em; font-size: 15px; }
+.fc-login__pontos { list-style: none; margin-top: 30px; display: grid; gap: 12px; }
+.fc-login__ponto { display: flex; align-items: center; gap: 11px; color: #C6D4E2; font-size: 14px; font-weight: 500; }
+.fc-login__ponto span:first-child {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(54, 132, 200, .18); border: 1px solid rgba(111, 192, 245, .28);
+  font-size: 13px;
+}
+.fc-login__creditos {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .02em;
+  color: #8FA3B7; text-decoration: none;
+  padding: 7px 0; transition: color .15s ease;
+}
+.fc-login__creditos:hover { color: #FFFFFF; }
+
+.fc-login__painel {
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 32px; background: var(--fundo);
+}
+.fc-login__forma { width: 100%; max-width: 396px; }
+
+/* Escolha do tipo de usuário: dois cartões, não dois botões cinzas. */
+.fc-tipo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fc-tipo__op {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 13px 14px;
+  background: var(--superficie);
+  border: 1px solid var(--linha-forte); border-radius: var(--raio);
+  cursor: pointer; text-align: left;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.fc-tipo__op:hover { border-color: var(--neutro); }
+.fc-tipo__op[aria-pressed='true'] {
+  border-color: var(--acento-tipo);
+  background: color-mix(in srgb, var(--acento-tipo) 9%, var(--superficie));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento-tipo) 20%, transparent);
+}
+.fc-tipo__icone { font-size: 17px; }
+.fc-tipo__nome { font-size: 14px; font-weight: 600; color: var(--texto); }
+.fc-tipo__desc { font-size: 11.5px; color: var(--texto-fraco); line-height: 1.35; }
+
+.fc-erro {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 11px 13px; border-radius: var(--raio-p);
+  background: color-mix(in srgb, var(--risco) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--risco) 34%, transparent);
+  color: var(--risco); font-size: 13.5px;
+}
+
+.fc-senha { display: flex; gap: 8px; }
+.fc-senha .fc-campo { flex: 1; }
+.fc-olho {
+  padding: 0 13px;
+  background: var(--superficie); color: var(--texto-suave);
+  border: 1px solid var(--linha-forte); border-radius: var(--raio-p);
+  cursor: pointer; transition: border-color .15s ease, color .15s ease;
+}
+.fc-olho:hover { border-color: var(--primaria); color: var(--primaria); }
+
+@media (max-width: 960px) {
+  .fc-login { grid-template-columns: 1fr; }
+  .fc-login__marca { padding: 30px 26px; }
+
+  .fc-login__titulo { font-size: 1.5rem; margin-top: 18px; }
+  .fc-login__pontos, .fc-login__creditos, .fc-login__sub { display: none; }
+  .fc-login__painel { padding: 30px 22px 48px; }
+}
+
+/* ========================================================================
+   ÁREA DE CONTEÚDO
+   ======================================================================== */
+.fc-topo {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 13px 26px;
+  background: color-mix(in srgb, var(--superficie) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linha);
+  position: sticky; top: 0; z-index: 20;
+}
+.fc-topo__contexto { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--texto-suave); }
+.fc-topo__area {
+  font-family: var(--fonte-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+  background: color-mix(in srgb, var(--acento-area) 13%, transparent);
+  color: var(--acento-area);
+  border: 1px solid color-mix(in srgb, var(--acento-area) 32%, transparent);
+}
+.fc-conteudo { padding: 26px; max-width: 1280px; }
+
+/* Entrada suave ao trocar de tela — 150 ms, sem chamar atenção. */
+.fc-entra { animation: fc-entra .18s ease-out; }
+@keyframes fc-entra { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+/* Ponto pulsante de carregamento. */
+.fc-pulso { display: inline-flex; gap: 5px; }
+.fc-pulso i {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--primaria); animation: fc-pulso 1.05s infinite ease-in-out;
+}
+.fc-pulso i:nth-child(2) { animation-delay: .16s; }
+.fc-pulso i:nth-child(3) { animation-delay: .32s; }
+@keyframes fc-pulso { 0%, 80%, 100% { opacity: .25; transform: scale(.8); } 40% { opacity: 1; transform: scale(1); } }

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual Env
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# Firebase
+.firebaserc
+firebase-debug.log
+
+# Secrets - NUNCA COMMITAR!
+*secret*
+*credentials*
+*credencial*
+*password*
+*apikey*
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db

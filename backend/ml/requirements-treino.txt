@@ -1,0 +1,6 @@
+# Ambiente LOCAL de treino da Ideia 14 — nao sobe como Function.
+# As tres primeiras versoes precisam ser IGUAIS as do functions/requirements.txt:
+# o modelo e salvo por esta versao do lightgbm e carregado pela da Function.
+lightgbm==4.7.0
+numpy==2.4.6
+scipy==1.17.1

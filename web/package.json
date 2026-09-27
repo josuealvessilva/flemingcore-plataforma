@@ -1,0 +1,31 @@
+{
+  "name": "flemingcore",
+  "version": "1.0.0",
+  "description": "FlemingCore — gestão de farmácia. Desktop (farmacêutico) e web (Eurofarma).",
+  "private": true,
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "dev:electron": "npm run build:electron && vite build && electron .",
+    "build:web": "tsc -b && vite build --mode web && node scripts/organizar-web.mjs",
+    "build:desktop": "tsc -b && npm run build:electron && vite build && electron-builder --win",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit && tsc -p tsconfig.electron.json --noEmit"
+  },
+  "dependencies": {
+    "firebase": "^11.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1"
+  }
+}
