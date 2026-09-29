@@ -43,7 +43,7 @@ Vertex AI fica no roadmap pós-challenge, quando houver dado real de produção.
 A ordem é a da constante `FEATURES_PROJECAO` do `main.py`. O treino se recusa
 a rodar se ela divergir, e a Function recusa um modelo com outras features.
 
-## Regra inegociável: nada de recall (Ideia 13)
+## Sobre a (Ideia 13)
 
 O treino nunca usa dado de `alerta_seguranca_anvisa` nem de fonte de recall.
 Hoje isso vale por construção: o gerador não conecta em banco nem em rede, e
